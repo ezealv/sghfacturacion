@@ -137,11 +137,14 @@ public class ComprobanteABMController extends AbstractABMController<Integer, Com
 				}else{
 					model.addAttribute("observacionesComprobante", rpf.getListaObservaciones());
 					model.addAttribute("erroresComprobante", rpf.getListaErrores());
+					return viewBaseLocation + "/form";
 				}
 			}
 	
 			abm.guardar(entity);
-	
+			if(entity.getNroComprobante() != 0){
+				model.addAttribute("nroComprobante", entity.getNroComprobante());
+			}
 			model.addAttribute("success", "La creaci&oacuten se realiz&oacute correctamente.");
 			
 		} catch(Exception e) {
@@ -199,6 +202,7 @@ public class ComprobanteABMController extends AbstractABMController<Integer, Com
 			}else{
 				model.addAttribute("observacionesComprobante", rpf.getListaObservaciones());
 				model.addAttribute("erroresComprobante", rpf.getListaErrores());
+				return viewBaseLocation + "/form";
 			}
 		}
 		abm.actualizar(entity);

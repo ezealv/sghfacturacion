@@ -7,6 +7,7 @@
 
 <%
 	request.setAttribute("success", request.getParameter("success"));
+	request.setAttribute("nroComprobante", request.getParameter("nroComprobante"));
 	request.setAttribute("titulo", "Lista de Comprobantes");
 %>
 
@@ -16,6 +17,14 @@
 		COMPROBANTES <small>Lista de comprobantes guardados</a></small>
 	</h2>
 </div>
+<c:choose>
+	<c:when test="${nroComprobante != null}">
+		<div class="alert alert-success alert-dismissible">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+		    <strong>Comprobante Emitido!</strong> El comprobante Nro ${nroComprobante} se ha emitido y gurdado correctamente.
+		</div>
+	</c:when>
+</c:choose>
 <!-- Basic Examples -->
 <div class="row clearfix">
 	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
