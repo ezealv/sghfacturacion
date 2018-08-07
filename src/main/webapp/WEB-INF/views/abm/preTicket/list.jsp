@@ -22,11 +22,8 @@
 		<div class="card">
 			<div class="header">
                 <sec:authorize access="hasRole('ADMIN')">
-<<<<<<< HEAD
-					<a href="<c:url value='new' />"
-=======
-					<a href="<c:url value='newComprobante' />"
->>>>>>> 94cc8458350446c2388835b90a127488537f3686
+
+			<a href="<c:url value='new' />"
 						class="btn btn-primary waves-effect">Crear Pre-Ticket</a>
 				</sec:authorize>
             </div>
