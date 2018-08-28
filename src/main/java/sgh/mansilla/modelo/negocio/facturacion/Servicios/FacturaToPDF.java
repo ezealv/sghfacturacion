@@ -68,8 +68,8 @@ public class FacturaToPDF {
                     numeroFactura=String.valueOf(factura.getNroComprobante()),
                     fechaFactura=factura.getFechaComprobante().toString(),
                     nombreCliente=factura.getClienteComprobante().getNombre()+" "+factura.getClienteComprobante().getApellido(),
-                    domicilioCliente= "Calle Falsa 123",
-                    localidadCliente= "Lanus",
+                    domicilioCliente= "Domicilio de prueba 123",
+                    localidadCliente= "Localidad de prueba 345",
                     condicionIvaCliente= factura.getClienteComprobante().getTipoDocumento().getDescripcion(),
                     condicionVenta=factura.getConceptosAIncluir().getDescripcion(),
                     cuitCliente=factura.getClienteComprobante().getDocumento(),
@@ -77,19 +77,19 @@ public class FacturaToPDF {
                     fechaVto = "",
                     subtotal=String.valueOf(factura.getImporteNeto()),
                     impuesto=String.valueOf(factura.getImporteTributos()),
-                    porcentajeIva=String.valueOf(factura.getTotalIva()),
+                    porcentajeIva= "21",
                     totalIva="",
                     total=String.valueOf(factura.getImporteTotal()),
                     discriminaIva="",htmlFacturaAsociada="";
             if(factura.getCae() != null){
                 cae = factura.getCae();
-                fechaVto = factura.getVencimientoCae().toGMTString();
+                fechaVto = factura.getVencimientoCae().toString();
             }
 
             if(factura.esFacturaA()) {
-                discriminaIva="    <td width=\"291\">I.V.A Inscripto " + porcentajeIva +
-                        "    %</td>";
-                totalIva="    <td>"+String.valueOf(factura.getTotalIva())+"</td>";
+                discriminaIva="    <td align=\"center\" width=\"313\"><strong>I.V.A Inscripto " + porcentajeIva +
+                        " %</strong></td>";
+                totalIva="    <td align=\"right\">"+String.valueOf(factura.getTotalIva())+"</td>";
             }
 //            if(factura.getFacturaAsociada() != 0){
 //                htmlFacturaAsociada = "<label> Factura asociada: "+factura.getFacturaAsociada()+"</label>";
@@ -102,7 +102,7 @@ public class FacturaToPDF {
             document.open();
             document.addAuthor("Sistema facturacion");
             document.addCreator("Sistema facturacion");
-            document.addSubject("Thanks for your support");
+            document.addSubject("Asunto del documento");
             //document.setPageSize(PageSize.A4);
             //document.setMargins()
 
@@ -112,108 +112,128 @@ public class FacturaToPDF {
             XMLWorkerHelper worker = XMLWorkerHelper.getInstance();
 
             String str =
-                    "<html xmlns=\"http://www.w3.org/1999/xhtml\">"+
-                            "<head>"+
-                            "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" /><meta/>"+
-                            "<title>Documento sin título</title>"+
-                            "<style type=\"text/css\">"+
-                            ".nombre {"+
-                            "	font-family: Comic Sans MS, cursive;"+
-                            "	font-size: 42px;"+
-                            "	font-weight: bold;"+
-                            "	color: #00C;"+
-                            "}"+
-                            ".nombre2 {"+
-                            "	font-size: 24px;"+
-                            "}"+
-                            ".nombre3 {"+
-                            "	font-size: 18px;"+
-                            "	font-weight: bold;"+
-                            "}"+
-                            ".nombre5 {"+
-                            "	font-size: 14px;"+
-                            "	font-weight: bold;"+
-                            "}"+
-                            ".nombre6 {"+
-                            "	font-size: 36px;"+
-                            "	font-weight: bold;"+
-                            "	font-style: italic;"+
-                            "}"+
-                            ".nombre4 {"+
-                            "	font-weight: bold;"+
-                            "}"+
-                            ".nombre4 {"+
-                            "	font-style: italic;"+
-                            "}"+
-                            ".codigoBarra {"+
-                            "   padding-left:10px;"+
-                            "   margin-left:10px"+
-                            "   padding-top:10px;"+
-                            "   margin-top:10px"+
-                            "}"+
-                            ".nombre4 {"+
-                            "	font-weight: bold;"+
-                            "	font-size: 24px;"+
-                            "}"+
-                            "encabezadoComun {"+
-                            "	font-style: normal;"+
-                            "}"+
-                            "#form1 .nombre4 {"+
-                            "	font-weight: normal;"+
-                            "}"+
-                            "#form1 .nombre4 {"+
-                            "	font-style: normal;"+
-                            "}"+
-                            "</style>"+
-                            "</head>"+
+            		"<html xmlns=\"http://www.w3.org/1999/xhtml\">"+
+            				"<head>"+
+            				    "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />"+
+            				    "<meta/>"+
+            				    "<title>Comprobante</title>"+
+            				    "<style type=\"text/css\">"+
+            				        ".nombre {"+
+            				            "font-family: -apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,Oxygen-Sans,Ubuntu,Cantarell,\"Helvetica Neue\",sans-serif;"+
+            				            "font-size: 42px;"+
+            				            "color: rgb(0, 0, 0);"+
+            				        "}"+
+            				        ".nombre2 {"+
+            				           "font-family: -apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,Oxygen-Sans,Ubuntu,Cantarell,\"Helvetica Neue\",sans-serif;"+
+            				           "font-size: 24px;"+
+            				        "}"+
+            				        ".nombre3 {"+
+            				            "font-size: 18px;"+
+            				            "font-weight: bold;"+
+            				            "font-family: -apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,Oxygen-Sans,Ubuntu,Cantarell,\"Helvetica Neue\",sans-serif;"+
+            				        "}"+
+            				        ".nombre5 {"+
+            				            "font-size: 14px;"+
+            				            "font-weight: bold;"+
+            				            "font-family: -apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,Oxygen-Sans,Ubuntu,Cantarell,\"Helvetica Neue\",sans-serif;"+
+            				        "}"+
+            				        ".nombre6 {"+
+            				            "font-size: 36px;"+
+            				            "font-weight: bold;"+
+            				            "font-family: -apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,Oxygen-Sans,Ubuntu,Cantarell,\"Helvetica Neue\",sans-serif;"+
+            				        "}"+
+            				        ".nombre4 {"+
+            				            "font-weight: bold;"+
+            				            "font-family: -apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,Oxygen-Sans,Ubuntu,Cantarell,\"Helvetica Neue\",sans-serif;"+
+            				        "}"+
+            				        ".nombre7 {"+
+            				            "font-size: 18px;"+
+            				            "font-family: -apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,Oxygen-Sans,Ubuntu,Cantarell,\"Helvetica Neue\",sans-serif;"+
+            				        "}"+
+            				        ".codigoBarra {"+
+            				            "padding-left: 10px;"+
+            				            "margin-left: 10px;"+
+            				            "padding-top:10px;"+
+            				            "margin-top: 10px"+
+            				        "}"+
+            				        ".nombre4 {"+
+            				            "font-weight: bold;"+
+            				            "font-size: 24px;"+
+            				        "}"+
+            				        "encabezadoComun {"+
+            				            "font-style: normal;"+
+            				        "}"+
+            				        "#form1 .nombre4 {"+
+            				            "font-weight: normal;"+
+            				        "}"+
+            				        "#form1 .nombre4 {"+
+            				            "font-style: normal;"+
+            				        "}"+
+            				        ".tabla-factura {"+
+            				            "border-collapse:collapse;"+
+            				        "}"+
+            				        ".detalleEmisor {"+
+            				            "margin-left:20px;"+
+            				            "margin-bottom:20px"+
+            				        "}"+
+            				        ".detalleEmisorUltimo {"+
+        				            "margin-left:20px;"+
+        				        "}"+
+            				        ".trEncabezado {"+
+            				            "padding-top:20px;"+
+            				            "padding-bottom:20px"+
+            				        "}"+
+            				        ".trCae {"+
+            				            "padding-right:30px;"+
+            				            "padding-top:20px;"+
+            				        "}"+
+            				        ".detalleActividades {"+
+            				        	"margin-bottom:20px"+
+        				            "}"+
+            				    "</style>"+
+            				"</head>"+
 
-                            "<body>"+
-                            "<table width=\"870\" align=\"center\" height=\"159\" border=\"4\">"+
-                            "  <tr style=\"line-height: 85%;\">"+
-                            "    <td width=\"424\">" +
-                            "       <p align=\"center\" class=\"nombre3\">"+multiplicidad+"</p>"+
-                            "       <p align=\"center\" class=\"nombre4\">Hotel </p>"+
-                            "      <p align=\"center\" class=\"nombre\">Pipinas <span class=\"nombre2\">S.R.L</span></p>"+
-                            "    <p align=\"center\">Calle Falsa 123</p>"+
-                            "    <p align=\"center\"><span class=\"nombre4\">5555-5555</span> - Pcia. de Buenos Aires</p>"+
-                            "    <p align=\"center\">Iva Responsable Inscripto</p></td>"+
-                            "    <td width=\"424\"><form id=\"form1\" name=\"form1\" method=\"post\" action=\"\">";
+							 "<body>"+
+							 "<table width=\"870\" align=\"center\" height=\"159\" class=\"tabla-factura\" border=\"1\">"+
+							 "  <tr style=\"line-height: 85%;\">"+
+							 "    <td class=\"trEncabezado\" width=\"424\">" +
+							 "<p align=\"center\" class=\"nombre3\">LOGO</p>"+
+							 "<p class=\"nombre2 detalleEmisor\">Hotel de Prueba"+
+							     "<span class=\"nombre2\"> S.R.L</span>"+
+							 "</p>"+
+							 "<p class=\"detalleEmisor\">Av. Chiclana 3345 6° - CABA - Pcia. de Buenos Aires</p>"+
+							 "<p class=\"detalleEmisor\">Tel: 6841-4500</p>"+
+							 "<p class=\"detalleEmisor\">Iva Responsable Inscripto</p></td>"+
+                            "<td width=\"424\">";
                             if(esFactura){
-                                str = str+ "    <p align=\"center\" class=\"nombre4\"><strong><em>"+factura.getTipoComprobante().getDescripcion()+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</em></strong>"+
-                                        "       <span id=\"nombre6\"><em><strong>&nbsp;"+letraFactura+"&nbsp;</strong></em>"+
-                                        "       <strong></strong></span> </p>"+
-                                        "      <p align=\"center\" class=\"nombre4\">N° 0001  - "+
-                                        numeroFactura+
-                                        "      </p>";
-                            }
-                            else{
-                                str = str+ "  <p align=\"center\" class=\"nombre4\"> <strong><em>Remito&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</em></strong></p>";
-
+                                str = str+ "    <p align=\"center\" class=\"nombre4\"><strong>"+factura.getTipoComprobante().getDescripcion()+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>"+
+                                        //"       <span id=\"nombre6\"><strong>&nbsp;"+letraFactura+"&nbsp;</strong>"+
+                                        "       <span id=\"nombre6\"><strong>&nbsp;N° "+factura.getPtoVenta()+"  - "+numeroFactura+"&nbsp;</strong></span></p>";
                             }
 
-                            str = str +"      <p align=\"center\" class=\"nombre4\"><em>Fecha: "+fechaFactura+"</em></p>"+
-                            "      <p align=\"center\">C.U.I.T: 30-70865830-4</p>"+
-                            "      <p align=\"center\">Ingresos Brutos: 30-70865830-4</p>"+
-                            "      <p align=\"center\">Inicio de Actividades: 12/02/2004</p>"+
-                            "    </form></td>"+
+                            str = str +"      <p align=\"center\" class=\"nombre4\">Fecha: "+fechaFactura+"</p>"+
+                            "      <p class=\"detalleActividades\" align=\"center\"><strong>C.U.I.T:</strong> 30-70865830-4</p>"+
+                            "      <p class=\"detalleActividades\" align=\"center\"><strong>Ingresos Brutos:</strong> 30-70865830-4</p>"+
+                            "      <p class=\"detalleActividades\" align=\"center\"><strong>Inicio de Actividades:</strong> 12/02/2004</p>"+
+                            "	   </td>"+
                             "  </tr>"+
                             "</table>"+
-                            "<table width=\"870\" border=\"4\">"+
+                            "<table class=\"tabla-factura\" align=\"center\" width=\"870\" border=\"1\">"+
                             " <tr>"+
-                            "    <td height=\"88\"><p>Señor(es): "+nombreCliente+"</p>"+
-                            "    <p>Domicilio: "+domicilioCliente+"</p>"+
-                            "    <p>Localidad: "+localidadCliente+"</p></td>"+
+                            "    <td class=\"trEncabezado\" height=\"88\"><p class=\"detalleEmisor\"><strong>Señor(es):</strong> "+nombreCliente+"</p>"+
+                            "    <p class=\"detalleEmisor\"><strong>Domicilio:</strong> "+domicilioCliente+"</p>"+
+                            "    <p class=\"detalleEmisorUltimo\"><strong>Localidad:</strong> "+localidadCliente+"</p></td>"+
                             "  </tr>"+
                             "</table>"+
-                            "<table width=\"870\" height=\"77\" border=\"4\">"+
+                            "<table class=\"tabla-factura\" align=\"center\" width=\"870\" height=\"77\" border=\"1\">"+
                             "  <tr>"+
-                            "    <td><p>I.V.A: "+condicionIvaCliente+"</p>"+
-                            "    <p>Condicion de venta: "+condicionVenta+"</p></td>"+
-                            "    <td><p>C.U.I.T: "+cuitCliente+"</p>"+
-                            "    <p> </p></td>"+
+                            "    <td class=\"trEncabezado\"><p class=\"detalleEmisor\"><strong>I.V.A:</strong> "+condicionIvaCliente+"</p>"+
+                            "    <p class=\"detalleEmisorUltimo\"><strong>Condicion de venta:</strong> "+condicionVenta+"</p></td>"+
+                            "    <td class=\"trEncabezado\"><p class=\"detalleEmisorUltimo\"><strong>C.U.I.T:</strong> "+cuitCliente+"</p>"+
+                            "    </td>"+
                             "  </tr>"+
                             "</table>"+
-                            "<table width=\"870\" border=\"4\" background=\""+imagenFondo+"\">"+
+                            "<table class=\"tabla-factura\" align=\"center\" width=\"870\" border=\"1\">"+
                             "  <tr>"+
                             "    <td width=\"106\"><div class=\"nombre5\" align=\"center\">CANTIDAD</div></td>"+
                             "    <td width=\"520\"><div class=\"nombre5\" align=\"center\">DESCRIPCION</div></td>";
@@ -225,35 +245,31 @@ public class FacturaToPDF {
                             ArticulosToString(articulos,esFactura) + "</table>";
                              if(esFactura){
                                 str = str +
-                                        "<table width=\"870\" border=\"4\">"+
+                                        "<table class=\"tabla-factura\" width=\"870\" border=\"1\">"+
                                         "  <tr>"+
-                                        "    <td width=\"123\"><div align=\"center\">Sub-Total</div></td>"+
-                                        "    <td width=\"128\"><div align=\"center\">Impuesto</div></td>"+
-                                        "    <td width=\"139\"><div align=\"center\">Sub-Total</div></td>"+
+                                        "    <td width=\"313\"><div align=\"center\"><strong>Sub-Total</strong></div></td>"+
                                         discriminaIva +
-                                        "    <td width=\"149\"><div align=\"center\"><strong>TOTAL $</strong></div></td>"+
+                                        "    <td width=\"313\"><div align=\"center\"><strong>TOTAL $</strong></div></td>"+
                                         "  </tr>"+
                                         "  <tr>"+
-                                        "    <td>"+subtotal+"</td>"+
-                                        "    <td>"+impuesto+"</td>"+
-                                        "    <td>"+subtotal+"</td>"+
+                                        "    <td align=\"right\">"+subtotal+"</td>"+
                                         totalIva+
-                                        "    <td>"+total+"</td>"+
+                                        "    <td align=\"right\">"+total+"</td>"+
                                         "  </tr>"+
                                         "</table>"+
-                                        "<table width=\"870\" border=\"4\">"+
+                                        "<table class=\"tabla-factura\" width=\"870\" border=\"1\">"+
                                         "  <tr>"+
-                                        "    <td>"+
-                                        "      <label>"+
-                                        "          C.A.E: "+cae+"&nbsp;&nbsp;&nbsp;"+
-                                        "        </label>"+
-                                        "        <label>"+
-                                        "          Fecha Vto: "+fechaVto+
-                                        "        </label>"+
-                                        htmlFacturaAsociada+"<br/>"+
-                                        "<br/>" +
-                                        "<br/>"+
-                                        "        <div class=\"codigoBarra\"> <img hspace=\"2\" class=\"codigoBarra\" height=\"33\" width=\"330\" src=\""+codigoBarra+"\"></img> </div> "+
+                                        "    <td class=\"trCae\">"+
+                                        "      <p class=\"nombre7 detalleEmisor\" align=\"right\"><strong>"+
+                                        "          C.A.E:</strong> "+cae+"&nbsp;&nbsp;&nbsp;"+
+                                        "        </p>"+
+                                        "      <p class=\"nombre7 detalleEmisor\" align=\"right\"><strong>"+
+                                        "          Fecha de Vencimiento:</strong> "+fechaVto+"&nbsp;&nbsp;&nbsp;"+
+                                        "        </p>"+
+                                        //htmlFacturaAsociada+"<br/>"+
+                                        //"<br/>" +
+                                        //"<br/>"+
+                                        "        <div align=\"center\" class=\"codigoBarra\"> <img hspace=\"2\" class=\"codigoBarra\" height=\"50\" width=\"500\" src=\""+codigoBarra+"\"></img> </div> "+
                                         "    <p>&nbsp; </p></td>"+
                                         "  </tr>"+
                                         "</table>";
@@ -286,11 +302,11 @@ public class FacturaToPDF {
         {
             articulosString=articulosString+
                     "  <tr>"+
-                    "    <td>"+art.getCantidad()+"</td>"+
+                    "    <td align=\"right\">"+art.getCantidad()+"</td>"+
                     "    <td>"+art.getDescripcion()+"</td>";
                     if(esFactura){
-                        articulosString = articulosString + "    <td>"+art.getPrecio()+"</td>"+
-                                "    <td>"+art.getPrecio()*art.getCantidad()+"</td>";
+                        articulosString = articulosString + "    <td align=\"right\">"+art.getPrecio()+"</td>"+
+                                "    <td align=\"right\">"+art.getPrecio()*art.getCantidad()+"</td>";
                     }
                     articulosString = articulosString + "  </tr>";
 

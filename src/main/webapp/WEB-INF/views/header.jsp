@@ -22,7 +22,10 @@
 
     <!-- Animation Css -->
     <link href="<c:url value='/static/material/plugins/animate-css/animate.css' />" rel="stylesheet" />
-
+    
+    <!-- Sweetalert Css -->
+    <link href="<c:url value='/static/material/plugins/sweetalert/sweetalert.css' />" rel="stylesheet" />
+    
     <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
     <link href="<c:url value='/static/material/css/themes/all-themes.css' />" rel="stylesheet" />
     
