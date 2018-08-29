@@ -428,10 +428,18 @@ public class ComprobanteABMController extends AbstractABMController<Integer, Com
 		
 		ServicioAfip servicioAfip = new ServicioAfip();
 		
-		TicketAcceso ticketAcceso = GetTicketAcceso(servicioAfip);
 		
-		int nroUltimoComprobante = servicioAfip.obtenerUltimoComprobante(ticketAcceso, f1.getCodigoComprobante(),2);
-		RespuestaProcesarFactura rpf =servicioAfip.procesarComprobante(f1,ticketAcceso,nroUltimoComprobante,2);
+		TicketAcceso ticketAcceso = GetTicketAcceso(servicioAfip);
+		RespuestaProcesarFactura rpf = new RespuestaProcesarFactura();
+		if(ticketAcceso == null){
+			List<String> listaErrores = new ArrayList<String>();
+			listaErrores.add("No se pudo obtener el ticket de acceso.");
+			rpf.setListaErrores(listaErrores);
+			return rpf;
+		}
+		
+		int nroUltimoComprobante = servicioAfip.obtenerUltimoComprobante(ticketAcceso, f1.getCodigoComprobante(),comprobante.getPtoVenta());
+		rpf =servicioAfip.procesarComprobante(f1,ticketAcceso,nroUltimoComprobante,comprobante.getPtoVenta());
 		comprobante.setNroComprobante(rpf.getNroComprobante());
 
 		return rpf;
@@ -449,20 +457,25 @@ public class ComprobanteABMController extends AbstractABMController<Integer, Com
 		Calendar calendar = Calendar.getInstance();
         java.util.Date date =  calendar.getTime();
 		
-		if(ticketAcceso == null){
-			ticketAcceso =  servicioAfip.obtenerTicketAcceso();
-			if(ticketAcceso.getSign() != null && ticketAcceso.getSign() != "")
-				ticketAccesoABM.guardar(ticketAcceso);
-		}else if(ticketAcceso.getFechaHoraExpiracion().compareTo(date) < 0){
-			TicketAcceso ticketAccesoNuevo =  servicioAfip.obtenerTicketAcceso();
-			if(ticketAccesoNuevo.getSign() != null && ticketAccesoNuevo.getSign() != ""){
-				ticketAcceso.setCuit(ticketAccesoNuevo.getCuit());
-				ticketAcceso.setSign(ticketAccesoNuevo.getSign());
-				ticketAcceso.setToken(ticketAccesoNuevo.getToken());
-				ticketAcceso.setFechaHoraExpiracion(ticketAccesoNuevo.getFechaHoraExpiracion());
-				ticketAccesoABM.actualizar(ticketAcceso);
-			}
-		}
+        try{
+        	if(ticketAcceso == null){
+    			ticketAcceso =  servicioAfip.obtenerTicketAcceso();
+    			if(ticketAcceso.getSign() != null && ticketAcceso.getSign() != "")
+    				ticketAccesoABM.guardar(ticketAcceso);
+    		}else if(ticketAcceso.getFechaHoraExpiracion().compareTo(date) < 0){
+    			TicketAcceso ticketAccesoNuevo =  servicioAfip.obtenerTicketAcceso();
+    			if(ticketAccesoNuevo.getSign() != null && ticketAccesoNuevo.getSign() != ""){
+    				ticketAcceso.setCuit(ticketAccesoNuevo.getCuit());
+    				ticketAcceso.setSign(ticketAccesoNuevo.getSign());
+    				ticketAcceso.setToken(ticketAccesoNuevo.getToken());
+    				ticketAcceso.setFechaHoraExpiracion(ticketAccesoNuevo.getFechaHoraExpiracion());
+    				ticketAccesoABM.actualizar(ticketAcceso);
+    			}
+    		}
+        }catch(Exception ex){
+        	
+        }
+		
 		return ticketAcceso;
 	}
 	

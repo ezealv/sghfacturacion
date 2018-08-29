@@ -51,6 +51,15 @@ $(function () {
 	        responsive: true
 	    });
 	}
+	if ($('.js-exportable').length > 0) { 
+		$('.js-exportable').DataTable({
+	        dom: 'Bfrtip',
+	        responsive: true,
+	        buttons: [
+	            'csv', 'excel', 'pdf', 'print'
+	        ]
+	    });
+	}
 	$('.form-line').removeClass('focused');
 });
 
@@ -90,7 +99,7 @@ function agregarPreTicket(){
         	$('#modalPreTickets').modal('show');
         },
         error: function (data, errorThrown) {
-
+        	showNotification("alert-danger","Ha ocurrido un error al agregar el Pre-Ticket.","top","right","","",1000);
         }
     });
 }
@@ -103,7 +112,7 @@ function preTicketSeleccionado(id,descripcion,precio){
 		  }
 	});
 	if(preTicketExistente){
-		alert("El Pre-Ticket ya fue agregado previamente.");
+		showNotification("alert-warning","El Pre-Ticket ya fue agregado previamente.","top","right","","",1000);
 		return;
 	}
 	var indice = parseInt($("#indiceConceptos").val());
@@ -128,7 +137,7 @@ function preTicketSeleccionado(id,descripcion,precio){
 	indice++;
 	$("#indiceConceptos").val(indice);
 	calcularSubtotales();
-	alert("Pre-Ticket agregado con exito.");
+	showNotification("alert-success","Pre-Ticket agregado con exito.","top","right","","",1000);
 }
 
 
@@ -182,10 +191,10 @@ function seleccionarSelectTipoIva(){
 	
 }
 
-function facturar(){
-	$("#facturar").val("true");
-	$("#btnSubmit").click();
-}
+//function facturar(){
+//	$("#facturar").val("true");
+//	$("#btnSubmit").click();
+//}
 
 function DescargarComprobante(){
 	$("#btnSubmit").click();
@@ -204,6 +213,22 @@ function DescargarComprobante(id){
         }
     });
 }
+
+function facturar() {
+    swal({
+        title: "Confirma la emision del comprobante ?",
+        text: "Una vez emitido no podra volver a editarlo.",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Confirmar",
+        closeOnConfirm: true
+    }, function () {
+    	$("#facturar").val("true");
+    	$("#btnSubmit").click();
+    });
+}
+
 
 //
 //// Start indexing at the size of the current list

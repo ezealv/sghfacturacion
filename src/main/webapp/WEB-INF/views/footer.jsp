@@ -13,10 +13,16 @@
 
     <!-- Slimscroll Plugin Js -->
     <script src="<c:url value='/static/material/plugins/jquery-slimscroll/jquery.slimscroll.js' />"></script>
+    
+    <!-- Notifications Js -->
+    <script src="<c:url value='/static/material/plugins/bootstrap-notify/bootstrap-notify.js' />"></script>
 
     <!-- Waves Effect Plugin Js -->
     <script src="<c:url value='/static/material/plugins/node-waves/waves.js' />"></script>
-
+    
+    <!-- SweetAlert Plugin Js -->
+    <script src="<c:url value='/static/material/plugins/sweetalert/sweetalert.min.js' />"></script>
+    
     <!-- Jquery CountTo Plugin Js -->
     <script src="<c:url value='/static/material/plugins/jquery-countto/jquery.countTo.js' />"></script>
     

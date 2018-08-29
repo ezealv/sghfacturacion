@@ -76,10 +76,10 @@
 				</div>
 				<div class="body">
 					<div class="row clearfix">
-						<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 							<label for="email_address_2">Tipo</label>
 						</div>
-						<div class="col-lg-10 col-md-10">
+						<div class="col-lg-8 col-md-8">
 							<form:select path="tipoComprobante" items="${tipoComprobante}"
 								multiple="false" itemValue="idTipoComprobante"
 								itemLabel="descripcion" class="form-control show-tick"
@@ -88,39 +88,53 @@
 								<form:errors path="tipoComprobante" class="help-inline" />
 							</div>
 						</div>
+						</div>
 						<c:choose>
 							<c:when test="${entity.nroComprobante != 0}">
+							<div class="row clearfix">
 								<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
 									<label for="">Nro</label>
 								</div>
 								<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 									<div class="form-group">
 										<div class="form-line">
-											<form:input type="number" path="nroComprobante"
-												id="nroComprobante" class="form-control" />
-											<div class="has-error">
-												<form:errors path="nroComprobante" class="help-inline" />
-											</div>
+											${entity.nroComprobante}
 										</div>
 									</div>
 		
 								</div>
 								<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-									<label for="">Pto Venta</label>
+									<label for="">Punto de Venta</label>
 								</div>
 								<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 									<div class="form-group">
 										<div class="form-line">
-											<form:input type="number" path="ptoVenta" id="ptoVenta"
-												class="form-control" />
-											<div class="has-error">
-												<form:errors path="ptoVenta" class="help-inline" />
-											</div>
+											${entity.ptoVenta}
 										</div>
 									</div>
 								</div>
+								</div>
 							</c:when>
+							<c:otherwise>
+							<div class="row clearfix">
+								<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+									<label for="ptoVenta">Punto de Venta</label>
+								</div>
+								<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+								<div class="form-group">
+										<div class="form-line">
+											<form:input type="number" path="ptoVenta" id="ptoVenta"
+												class="form-control" />
+										</div>
+									</div>
+											<div class="has-error">
+												<form:errors path="ptoVenta" class="help-inline" />
+											</div>
+								</div>
+								</div>
+							</c:otherwise>
 						</c:choose>
+						<div class="row clearfix">
 						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 							<label for="email_address_2">Fecha Comprobante</label>
 						</div>
@@ -136,7 +150,7 @@
 								</div>
 							</div>
 						</div>
-					</div>
+						</div>
 				</div>
 			</div>
 		</div>
@@ -491,11 +505,7 @@
 								<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
 									<div class="form-group">
 										<div class="form-line">
-											<form:input type="text" path="cae" id="cae"
-												class="form-control" />
-											<div class="has-error">
-												<form:errors path="cae" class="help-inline" />
-											</div>
+											${entity.cae}
 										</div>
 									</div>
 								</div>
@@ -505,13 +515,7 @@
 								<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
 									<div class="form-group">
 										<div class="form-line">
-											<form:input type="text" path="vencimientoCae"
-												id="vencimientoCae" placeholder="Vencimiento Cae"
-												class="datepicker form-control" />
-											<div class="has-error">
-												<form:errors path="vencimientoCae" class="help-inline" />
-											</div>
-
+											${entity.vencimientoCae}
 										</div>
 									</div>
 								</div>
@@ -599,18 +603,30 @@
 			<c:choose>
 				<c:when test="${edit}">
 					<div class="row clearfix">
-		                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 m-b-20">
-		                     <a class="btn btn-block btn-lg btn-success waves-effect" onclick="facturar()">GUARDAR Y EMITIR</a>
-		                 </div>
+					<c:choose>
+						<c:when test="${entity.cae == null || entity.cae == ''}}">
+			                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 m-b-20">
+			                     <a class="btn btn-block btn-lg btn-success waves-effect" onclick="facturar()">GUARDAR Y EMITIR</a>
+			                 </div>
+	                 	</c:when>
+	                 </c:choose>
 		             </div>
 		             <div class="row clearfix">
-		                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 m-b-20">
-		                    <a class="btn btn-block btn-lg btn-default waves-effect" href="<c:url value='list' />">VOLVER</a>
-		                 </div>
-		                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 m-b-20">
-		                     
-		                     <input type="submit" id="btnSubmit" value="GUARDAR" class="btn btn-block btn-lg btn-primary waves-effect" />
-		                 </div>
+		                 <c:choose>
+							<c:when test="${entity.cae == null || entity.cae == ''}}">
+								 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 m-b-20">
+				                    <a class="btn btn-block btn-lg btn-default waves-effect" href="<c:url value='list' />">VOLVER</a>
+				                 </div>
+				                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 m-b-20">
+				                     <input type="submit" id="btnSubmit" value="GUARDAR" class="btn btn-block btn-lg btn-primary waves-effect" />
+				                 </div>
+			                 </c:when>
+			                 <c:otherwise>
+			                 	 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 m-b-20">
+				                    <a class="btn btn-block btn-lg btn-default waves-effect" href="<c:url value='list' />">VOLVER</a>
+				                 </div>
+			                 </c:otherwise>
+	                 	</c:choose>
 		             </div>
 				</c:when>
 				<c:otherwise>

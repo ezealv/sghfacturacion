@@ -37,7 +37,7 @@
             </div>
 			<div class="body">
 				<table
-					class="table table-bordered table-striped table-hover js-basic-example dataTable">
+					class="table table-bordered table-striped table-hover js-exportable dataTable">
 					<thead>
 						<tr>
 
@@ -108,5 +108,32 @@
 <script
 	src=" <c:url value= '/static/material/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js'/>"
 	type="text/javascript"></script>
+	
+	<script
+	src=" <c:url value= '/static/material/plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js'/>"
+	type="text/javascript"></script>
+	<script
+	src=" <c:url value= '/static/material/plugins/jquery-datatable/extensions/export/buttons.flash.min.js'/>"
+	type="text/javascript"></script>
+	<script
+	src=" <c:url value= '/static/material/plugins/jquery-datatable/extensions/export/jszip.min.js'/>"
+	type="text/javascript"></script>
+	<script
+	src=" <c:url value= '/static/material/plugins/jquery-datatable/extensions/export/pdfmake.min.js'/>"
+	type="text/javascript"></script>
+	<script
+	src=" <c:url value= '/static/material/plugins/jquery-datatable/extensions/export/vfs_fonts.js'/>"
+	type="text/javascript"></script>
+	<script
+	src=" <c:url value= '/static/material/plugins/jquery-datatable/extensions/export/buttons.html5.min.js'/>"
+	type="text/javascript"></script>
+	<script
+	src=" <c:url value= '/static/material/plugins/jquery-datatable/extensions/export/buttons.print.min.js'/>"
+	type="text/javascript"></script>
+	
 <script src=" <c:url value= '/static/js/comprobante.js'/>"
 	type="text/javascript"></script>
+	
+	
+	
+	
