@@ -77,6 +77,10 @@ public class Concepto implements Identificable<Integer>{
 	public void setPreTicket(PreTicket preTicket) {
 		this.preTicket = preTicket;
 	}
+	
+	public String toString(){
+		return "";
+	}
 
 	
 	

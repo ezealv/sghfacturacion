@@ -16,5 +16,17 @@
 	<many-to-one lazy="false" name="clientePreTicket" column="idClientePreTicket"
 		class="sgh.mansilla.modelo.datos.facturacion.ClienteComprobante" not-null="true"/>
 		
+	<list name="itemsPreTicket" table="itempreticket" inverse="false" cascade="all" lazy="false" >
+		<key>
+			 <column name="idPreTicket"  not-null="false" />
+		</key>
+		<list-index column = "idx"/>
+		<one-to-many class="sgh.mansilla.modelo.datos.facturacion.ItemPreTicket" />
+	</list>
+	
+	<many-to-one name="concepto" class="sgh.mansilla.modelo.datos.facturacion.Concepto" fetch="join" lazy="false">
+            <column name="idConcepto" not-null="false" />
+    </many-to-one>
+		
 </class>
 </hibernate-mapping>

@@ -6,6 +6,7 @@ import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -37,7 +38,7 @@ public class DefaultPreTicketABM extends ABMGenerico<Integer, PreTicket> impleme
 
 	@Override
 	protected void actualizarEntidad(PreTicket entidadPersistida, PreTicket entidadActualizada) {
-
+		BeanUtils.copyProperties(entidadActualizada, entidadPersistida, "idPreTicket");
 	}
 
 	@Override

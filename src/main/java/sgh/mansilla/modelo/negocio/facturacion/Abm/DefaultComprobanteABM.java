@@ -16,6 +16,8 @@ import sgh.mansilla.modelo.dao.AbstractDao.OrderType;
 import sgh.mansilla.modelo.dao.DaoGenerico;
 import sgh.mansilla.modelo.datos.facturacion.Comprobante;
 import sgh.mansilla.modelo.datos.facturacion.Concepto;
+import sgh.mansilla.modelo.datos.facturacion.PreTicket;
+import sgh.mansilla.modelo.datos.persona.Pasajero;
 import sgh.mansilla.modelo.negocio.ABMGenerico;
 import sgh.mansilla.modelo.negocio.estadia.EstadiaABM;
 
@@ -27,6 +29,9 @@ public class DefaultComprobanteABM extends ABMGenerico<Integer, Comprobante> imp
 	
 	@Autowired
 	ConceptoABM conceptoABM;
+	
+	@Autowired
+	PreTicketABM preTicketABM;
 
 	@Override
 	@Autowired
@@ -43,8 +48,14 @@ public class DefaultComprobanteABM extends ABMGenerico<Integer, Comprobante> imp
 			if(concepto.getTipoIva() > 0){
 				Concepto conceptoActualizado = new Concepto();
 				BeanUtils.copyProperties(concepto, conceptoActualizado);
-				concepto.setComprobante(entidad);
-				conceptosActualizados.add(concepto);
+				if(conceptoActualizado.getPreTicket() != null){
+					PreTicket attachedPreTicket = preTicketABM.buscarPorId(conceptoActualizado.getPreTicket().getId());
+					attachedPreTicket.setConcepto(conceptoActualizado);
+					conceptoActualizado.setPreTicket(attachedPreTicket);
+				}
+
+				conceptoActualizado.setComprobante(entidad);
+				conceptosActualizados.add(conceptoActualizado);
 			}
 		}
 		entidad.setConceptos(conceptosActualizados);
@@ -60,10 +71,13 @@ public class DefaultComprobanteABM extends ABMGenerico<Integer, Comprobante> imp
 			if(concepto.getTipoIva() > 0){
 				concepto.setComprobante(entidadActualizada);
 			}
+			if(concepto.getPreTicket() != null){
+				PreTicket attachedPreTicket = preTicketABM.buscarPorId(concepto.getPreTicket().getId());
+				attachedPreTicket.setConcepto(concepto);
+				concepto.setPreTicket(attachedPreTicket);
+			}
 		}
 		BeanUtils.copyProperties(entidadActualizada, entidadPersistida, "idComprobante");
-		int numero = entidadActualizada.getConceptos().size();
-		int num2 = numero;
 	}
 
 	@Override

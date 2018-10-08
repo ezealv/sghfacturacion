@@ -1,5 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
 <%@ page isELIgnored="false"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -8,14 +6,14 @@
 <%@include file="../../header.jsp"%>
 <c:choose>
 	<c:when test="${facturado != null}">
-		<div class="alert alert-success lead">${facturado}</div>
+		<div class="alert alert-success alert-dismissible">${facturado}</div>
 	</c:when>
 </c:choose>
 <c:choose>
 	<c:when test="${observacionesComprobante != null}">
 		<c:forEach varStatus="i" var="observacionComprobante"
 			items="${observacionesComprobante}">
-			<div class="alert alert-warning lead">
+			<div class="alert alert-warning alert-dismissible">
 				${observacionComprobante}</div>
 		</c:forEach>
 	</c:when>
@@ -24,18 +22,16 @@
 	<c:when test="${erroresComprobante != null}">
 		<c:forEach varStatus="i" var="errorComprobante"
 			items="${erroresComprobante}">
-			<div class="alert alert-danger lead">${errorComprobante}</div>
+			<div class="alert alert-danger alert-dismissible">${errorComprobante}</div>
 		</c:forEach>
 	</c:when>
 </c:choose>
-<div class="block-header">
-	<h2>CREAR COMPROBANTE</h2>
-</div>
+
 <form:form method="POST" modelAttribute="entity" class="">
 	<%
 		/* ******************************************************************************** *
-														  ********************* COMIENZO DE LOS CAMPOS DE LA ENTIDAD ********************* *
-														  ******************************************************************************** */
+		   ********************* COMIENZO DE LOS CAMPOS DE LA ENTIDAD ********************* *
+		   ******************************************************************************** */
 	%>
 	<form:input type="hidden" path="idComprobante" id="id" />
 	<input type="hidden" id="facturar" name="facturar" value="false" />
@@ -69,7 +65,7 @@
 
 
 	<div class="row clearfix">
-		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 			<div class="card">
 				<div class="header bg-blue">
 					<h2>DATOS DEL COMPROBANTE</h2>
@@ -79,7 +75,7 @@
 						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 							<label for="email_address_2">Tipo</label>
 						</div>
-						<div class="col-lg-8 col-md-8">
+						<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
 							<form:select path="tipoComprobante" items="${tipoComprobante}"
 								multiple="false" itemValue="idTipoComprobante"
 								itemLabel="descripcion" class="form-control show-tick"
@@ -88,61 +84,57 @@
 								<form:errors path="tipoComprobante" class="help-inline" />
 							</div>
 						</div>
-						</div>
-						<c:choose>
-							<c:when test="${entity.nroComprobante != 0}">
+					</div>
+					<c:choose>
+						<c:when test="${entity.nroComprobante != 0}">
 							<div class="row clearfix">
-								<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+								<div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
 									<label for="">Nro</label>
 								</div>
-								<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+								<div class="col-lg-4 col-md-4 col-sm-4 col-xs-8">
 									<div class="form-group">
-										<div class="form-line">
-											${entity.nroComprobante}
-										</div>
+										<div class="form-line">${entity.nroComprobante}</div>
 									</div>
-		
+
 								</div>
-								<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+								<div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
 									<label for="">Punto de Venta</label>
 								</div>
-								<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+								<div class="col-lg-4 col-md-4 col-sm-4 col-xs-8">
 									<div class="form-group">
-										<div class="form-line">
-											${entity.ptoVenta}
-										</div>
+										<div class="form-line">${entity.ptoVenta}</div>
 									</div>
 								</div>
-								</div>
-							</c:when>
-							<c:otherwise>
+							</div>
+						</c:when>
+						<c:otherwise>
 							<div class="row clearfix">
 								<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 									<label for="ptoVenta">Punto de Venta</label>
 								</div>
 								<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-								<div class="form-group">
+									<div class="form-group">
 										<div class="form-line">
-											<form:input type="number" path="ptoVenta" id="ptoVenta"
+											<form:input type="number" min="1" max="99998" step="1" required="true" path="ptoVenta" id="ptoVenta"
 												class="form-control" />
 										</div>
 									</div>
-											<div class="has-error">
-												<form:errors path="ptoVenta" class="help-inline" />
-											</div>
+									<div class="has-error">
+										<form:errors path="ptoVenta" class="help-inline" />
+									</div>
 								</div>
-								</div>
-							</c:otherwise>
-						</c:choose>
-						<div class="row clearfix">
+							</div>
+						</c:otherwise>
+					</c:choose>
+					<div class="row clearfix">
 						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 							<label for="email_address_2">Fecha Comprobante</label>
 						</div>
-						<div class="col-sm-8">
+						<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
 							<div class="form-group">
 								<div class="form-line">
 									<form:input type="text" path="fechaComprobante"
-										id="fechaComprobante" placeholder="Fecha del comprobante"
+										id="fechaComprobante" required="true" placeholder="Fecha del comprobante"
 										class="datepicker form-control" />
 									<div class="has-error">
 										<form:errors path="fechaComprobante" class="help-inline" />
@@ -150,11 +142,11 @@
 								</div>
 							</div>
 						</div>
-						</div>
+					</div>
 				</div>
 			</div>
 		</div>
-		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 			<div class="card">
 				<div class="header bg-blue">
 					<h2>DATOS DEL PAGO</h2>
@@ -165,7 +157,7 @@
 							class="col-lg-3 col-md-3 col-sm-3 col-xs-3 form-control-label">
 							<label for="email_address_2">Conceptos</label>
 						</div>
-						<div class="col-md-9">
+						<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
 							<form:select path="conceptosAIncluir"
 								items="${conceptosAIncluir}" multiple="false"
 								itemValue="idConceptosAIncluir" itemLabel="descripcion"
@@ -178,7 +170,7 @@
 							class="col-lg-3 col-md-3 col-sm-3 col-xs-3 form-control-label">
 							<label for="email_address_2">Forma Pago</label>
 						</div>
-						<div class="col-md-9">
+						<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
 							<form:select path="formaDePago" items="${formaDePago}"
 								multiple="false" itemValue="idFormaDePago"
 								itemLabel="descripcion" class="form-control show-tick"
@@ -191,7 +183,7 @@
 							class="col-lg-3 col-md-3 col-sm-3 col-xs-3 form-control-label">
 							<label for="email_address_2">Moneda</label>
 						</div>
-						<div class="col-md-9">
+						<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
 							<form:select path="moneda" items="${moneda}" multiple="false"
 								itemValue="idMoneda" itemLabel="descripcion"
 								class="form-control show-tick" data-live-search="true" />
@@ -262,9 +254,9 @@
 						<li class="active" role="presentation"><a id="conceptos-tab"
 							data-toggle="tab" href="#conceptos-tab-pane" role="tab"
 							aria-controls="conceptos">CONCEPTOS</a></li>
-						<li role="presentation"><a id="alicuotas-tab"
-							data-toggle="tab" href="#alicuotas-tab-pane" role="tab"
-							aria-controls="alicuotas">ALICUOTAS</a></li>
+<!-- 						<li role="presentation"><a id="alicuotas-tab" -->
+<!-- 							data-toggle="tab" href="#alicuotas-tab-pane" role="tab" -->
+<!-- 							aria-controls="alicuotas">ALICUOTAS</a></li> -->
 						<!-- 							<li role="presentation"><a id="tributos-tab" -->
 						<!-- 								data-toggle="tab" href="#tributos-tab-pane" role="tab" -->
 						<!-- 								aria-controls="tributos">Tributos</a></li> -->
@@ -297,22 +289,22 @@
 														<td class="col-md-1"><div
 																class="form-group form-group-sm">
 																<input type="number" class="form-control"
-																	id="cantidad-${i.index}"
+																	id="cantidad-${i.index}" min="1"
 																	name="conceptos[${i.index}].cantidad" readonly
 																	onchange="calcularSubtotal(${i.index})"
 																	value="${conceptos.cantidad}" />
 															</div></td>
-														<td class="col-md-5"><div
+														<td class="col-md-4"><div
 																class="form-group form-group-sm">
-																<input type="text" class="form-control"
+																<input type="text" class="form-control" 
 																	id="descripcion-${i.index}"
 																	name="conceptos[${i.index}].descripcion" readonly
 																	value="${conceptos.descripcion}" />
 															</div></td>
 														<td class="col-md-1"><div
 																class="form-group form-group-sm">
-																<input type="number" class="form-control"
-																	id="precio-${i.index}"
+																<input type="number" step=".01" class="form-control"
+																	id="precio-${i.index}" min="0"
 																	name="conceptos[${i.index}].precio" readonly
 																	onchange="calcularSubtotal(${i.index})"
 																	value="${conceptos.precio}" step="any" />
@@ -326,17 +318,21 @@
 																<option value="2">Excento</option>
 																<option value="3">0 %</option>
 																<option value="4">10,50 %</option>
-																<option value="5">21 %</option>
+																<option selected value="5">21 %</option>
 																<option value="6">27 %</option>
 														</select></td>
 														<td class="col-md-1"><div
 																class="form-group form-group-sm">
-																<input type="number" class="form-control input-sm"
+																<input type="number" step=".01" class="form-control input-sm"
 																	id="subtotal-${i.index}" readonly
 																	name="subtotal-${i.index}" value="" />
 															</div></td>
-														<td class="col-md-2"><span
+														<td class="col-md-3"><span
 															class="label label-success">Pre-Ticket</span>
+															<button type="button" class="btn btn-default btn-circle waves-effect waves-circle waves-float"
+																	onclick="verItemsPreTicket(${conceptos.preTicket.idPreTicket})">
+																	<i class="material-icons" aria-hidden="true">storage</i>
+															</button>
 															<button type="button"
 																onclick="eliminarConcepto(${i.index})"
 																class="btn btn-danger btn-circle waves-effect waves-circle waves-float">
@@ -351,16 +347,18 @@
 																class="form-group form-group-sm">
 																<div class="form-line">
 																	<input type="number" class="form-control"
-																		id="cantidad-${i.index}"
+																		id="cantidad-${i.index}" min="1"
 																		name="conceptos[${i.index}].cantidad"
 																		onchange="calcularSubtotal(${i.index})"
+																		required
 																		value="${conceptos.cantidad}" />
 																</div>
 															</div></td>
-														<td class="col-md-5"><div
+														<td class="col-md-4"><div
 																class="form-group form-group-sm">
 																<div class="form-line">
 																	<input type="text" class="form-control"
+																		required
 																		id="descripcion-${i.index}"
 																		name="conceptos[${i.index}].descripcion"
 																		value="${conceptos.descripcion}" />
@@ -370,8 +368,9 @@
 																class="form-group form-group-sm">
 																<div class="form-line">
 																	<input type="number" class="form-control"
-																		id="precio-${i.index}"
+																		id="precio-${i.index}" step=".01" min="0"
 																		name="conceptos[${i.index}].precio"
+																		required
 																		onchange="calcularSubtotal(${i.index})"
 																		value="${conceptos.precio}" step="any" />
 																</div>
@@ -385,18 +384,18 @@
 																<option value="2">Excento</option>
 																<option value="3">0 %</option>
 																<option value="4">10,50 %</option>
-																<option value="5">21 %</option>
+																<option selected value="5">21 %</option>
 																<option value="6">27 %</option>
 														</select></td>
 														<td class="col-md-1"><div
 																class="form-group form-group-sm">
 																<div class="form-line">
-																	<input type="number" class="form-control"
+																	<input type="number" class="form-control" step=".01"
 																		id="subtotal-${i.index}" readonly
 																		name="subtotal-${i.index}" value="" />
 																</div>
 															</div></td>
-														<td class="col-md-2">
+														<td class="col-md-3">
 															<button type="button"
 																onclick="eliminarConcepto(${i.index})"
 																class="btn btn-danger btn-circle waves-effect waves-circle waves-float">
@@ -492,7 +491,7 @@
 	<div class="row clearfix">
 		<c:choose>
 			<c:when test="${entity.cae != null}">
-				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 					<div class="card">
 						<div class="header bg-blue">
 							<h2>RESULTADO</h2>
@@ -504,9 +503,7 @@
 								</div>
 								<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
 									<div class="form-group">
-										<div class="form-line">
-											${entity.cae}
-										</div>
+										<div class="form-line">${entity.cae}</div>
 									</div>
 								</div>
 								<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
@@ -514,32 +511,36 @@
 								</div>
 								<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
 									<div class="form-group">
-										<div class="form-line">
-											${entity.vencimientoCae}
-										</div>
+										<div class="form-line">${entity.vencimientoCae}</div>
 									</div>
 								</div>
 
-								<div class="form-group col-md-12">
+								<div class="col-md-6">
 									<a class="btn btn-block btn-lg btn-primary waves-effect"
 										target="_blank"
 										href="<c:url value='/comprobante/Download/${entity.idComprobante}'/>">Descargar
 										Comprobante</a>
 								</div>
-
+								
+								<div class="col-md-6">
+									<a class="btn btn-block btn-lg btn-primary waves-effect" onclick="enviarComprobante(${entity.idComprobante})">Enviar por Email </a>
+								</div>
+								<div  id ="loaderMail">
+									
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</c:when>
 			<c:otherwise>
-				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"></div>
+				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"></div>
 			</c:otherwise>
 		</c:choose>
 
 
 
-		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 			<div class="card">
 				<div class="header bg-blue">
 					<h2>TOTALES</h2>
@@ -557,22 +558,22 @@
 						<!-- 									</div> -->
 						<!-- 								</div> -->
 						<!-- 							</div> -->
-						<div class="form-group col-md-12">
-							<label class="col-md-5 control-label" for="totalIva">Importe
+						<div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<label class="col-lg-5 col-md-5 col-sm-5 col-xs-5 control-label" for="totalIva">Importe
 								IVA</label>
-							<div class="col-md-7">
-								<form:input type="number" step="any" path="totalIva"
+							<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+								<form:input type="number" step=".01" path="totalIva"
 									id="totalIva" class="form-control input-sm" />
 								<div class="has-error">
 									<form:errors path="totalIva" class="help-inline" />
 								</div>
 							</div>
 						</div>
-						<div class="form-group col-md-12">
-							<label class="col-md-5 control-label" for="importeTotal">Importe
+						<div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<label class="col-lg-5 col-md-5 col-sm-5 col-xs-5 control-label" for="importeTotal">Importe
 								Total</label>
-							<div class="col-md-7">
-								<form:input type="number" step="any" path="importeTotal"
+							<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+								<form:input type="number" step=".01" path="importeTotal"
 									id="importeTotal" class="form-control input-sm" />
 								<div class="has-error">
 									<form:errors path="importeTotal" class="help-inline" />
@@ -595,57 +596,63 @@
 
 	<%
 		/* ******************************************************************************** *
-														  ********************** FIN DE LOS CAMPOS DEL FORMULATION *********************** *
-														  ******************************************************************************** */
+															  ********************** FIN DE LOS CAMPOS DEL FORMULATION *********************** *
+															  ******************************************************************************** */
 	%>
 
 	<div class="row clearfix">
-			<c:choose>
-				<c:when test="${edit}">
-					<div class="row clearfix">
+		<c:choose>
+			<c:when test="${edit}">
+				<div class="row clearfix">
 					<c:choose>
-						<c:when test="${entity.cae == null || entity.cae == ''}}">
-			                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 m-b-20">
-			                     <a class="btn btn-block btn-lg btn-success waves-effect" onclick="facturar()">GUARDAR Y EMITIR</a>
-			                 </div>
-	                 	</c:when>
-	                 </c:choose>
-		             </div>
-		             <div class="row clearfix">
-		                 <c:choose>
-							<c:when test="${entity.cae == null || entity.cae == ''}}">
-								 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 m-b-20">
-				                    <a class="btn btn-block btn-lg btn-default waves-effect" href="<c:url value='list' />">VOLVER</a>
-				                 </div>
-				                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 m-b-20">
-				                     <input type="submit" id="btnSubmit" value="GUARDAR" class="btn btn-block btn-lg btn-primary waves-effect" />
-				                 </div>
-			                 </c:when>
-			                 <c:otherwise>
-			                 	 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 m-b-20">
-				                    <a class="btn btn-block btn-lg btn-default waves-effect" href="<c:url value='list' />">VOLVER</a>
-				                 </div>
-			                 </c:otherwise>
-	                 	</c:choose>
-		             </div>
-				</c:when>
-				<c:otherwise>
-					<div class="row clearfix">
-		                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 m-b-20">
-		                     <a class="btn btn-block btn-lg btn-success waves-effect" onclick="facturar()">GUARDAR Y EMITIR</a>
-		                 </div>
-		             </div>
-		             <div class="row clearfix">
-		                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 m-b-20">
-		                    <a class="btn btn-block btn-lg btn-default waves-effect" href="<c:url value='list' />">VOLVER</a>
-		                 </div>
-		                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 m-b-20">
-		                     
-		                     <input type="submit" id="btnSubmit" value="GUARDAR" class="btn btn-block btn-lg btn-primary waves-effect" />
-		                 </div>
-		             </div>
-				</c:otherwise>
-			</c:choose>
+						<c:when test="${entity.cae == null}">
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 m-b-20">
+								<a class="btn btn-block btn-lg btn-success waves-effect"
+									onclick="facturar()">GUARDAR Y EMITIR</a>
+							</div>
+						</c:when>
+					</c:choose>
+				</div>
+				<div class="row clearfix">
+					<c:choose>
+						<c:when test="${entity.cae == null}">
+							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 m-b-20">
+								<a class="btn btn-block btn-lg btn-default waves-effect"
+									href="<c:url value='list' />">VOLVER</a>
+							</div>
+							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 m-b-20">
+								<a class="btn btn-block btn-lg btn-primary waves-effect"
+									onclick="guardar()">GUARDAR</a>
+							</div>
+						</c:when>
+						<c:otherwise>
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 m-b-20">
+								<a class="btn btn-block btn-lg btn-default waves-effect"
+									href="<c:url value='list' />">VOLVER</a>
+							</div>
+						</c:otherwise>
+					</c:choose>
+				</div>
+			</c:when>
+			<c:otherwise>
+				<div class="row clearfix">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 m-b-20">
+						<a class="btn btn-block btn-lg btn-success waves-effect"
+							onclick="facturar()">GUARDAR Y EMITIR</a>
+					</div>
+				</div>
+				<div class="row clearfix">
+					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 m-b-20">
+						<a class="btn btn-block btn-lg btn-default waves-effect"
+							href="<c:url value='list' />">VOLVER</a>
+					</div>
+					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 m-b-20">
+						<a class="btn btn-block btn-lg btn-primary waves-effect"
+									onclick="guardar()">GUARDAR</a>
+					</div>
+				</div>
+			</c:otherwise>
+		</c:choose>
 	</div>
 
 </form:form>
@@ -653,23 +660,43 @@
 <!-- Modal Conceptos-->
 <div class="modal fade" id="modalPreTickets" tabindex="-1" role="dialog"
 	aria-labelledby="myModalLabel">
-	<div class="modal-dialog modal-lg" role="document">
+	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title" id="myModalLabel">Pre-Tickets</h4>
+				<h4 class="modal-title" id="myModalLabel">Agregar Pre-Tickets</h4>
 			</div>
 			<div class="modal-body" id="pretickets-modal-body"></div>
 			<div class="modal-footer">
-				<button type="button" onclick="AgregarTodos()"
-					class="btn btn-link waves-effect">AGREGAR TODOS</button>
 				<button type="button" class="btn btn-link waves-effect"
 					data-dismiss="modal">CERRAR</button>
 			</div>
 		</div>
 	</div>
 </div>
+
+<!-- Modal Conceptos-->
+<div class="modal fade" id="modalItemsPreTicket" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="myModalLabelItems">Listado de Items del Pre-Ticket</h4>
+			</div>
+			<div class="modal-body" id="itemspreticket-modal-body"></div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-link waves-effect"
+					data-dismiss="modal">CERRAR</button>
+			</div>
+		</div>
+	</div>
 </div>
 
 <%@include file="../../footer.jsp"%>
+<script src=" <c:url value= '/static/material/plugins/jquery-validation/jquery.validate.js'/>"
+	type="text/javascript"></script>
+	
+<script src=" <c:url value= '/static/material/plugins/jquery-validation/localization/messages_es_AR.js'/>"
+	type="text/javascript"></script>
+
 <script src=" <c:url value= '/static/js/comprobante.js'/>"
 	type="text/javascript"></script>

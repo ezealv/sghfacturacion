@@ -159,9 +159,22 @@ public class FileManager {
 	 * @param puntoDeVenta
 	 * @return
 	 */
-	private static String adaptarPuntoDeVenta(int puntoDeVenta) {
+	public static String adaptarPuntoDeVenta(int puntoDeVenta) {
 		String puntoDeVentaFormateado = String.valueOf(puntoDeVenta);
 		while(puntoDeVentaFormateado.length()<4){
+			puntoDeVentaFormateado = "0"+puntoDeVentaFormateado;
+		}
+		return puntoDeVentaFormateado;
+	}
+	
+	/**
+	 * Metodo que adapta el int para que ocupe los 4 caracteres en caso de no poseerlos
+	 * @param puntoDeVenta
+	 * @return
+	 */
+	public static String adaptarNroComprobante(int nroComprobante) {
+		String puntoDeVentaFormateado = String.valueOf(nroComprobante);
+		while(puntoDeVentaFormateado.length()<8){
 			puntoDeVentaFormateado = "0"+puntoDeVentaFormateado;
 		}
 		return puntoDeVentaFormateado;
