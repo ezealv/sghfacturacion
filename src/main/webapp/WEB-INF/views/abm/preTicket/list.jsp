@@ -58,7 +58,7 @@
 	  ********************* COMIENZO DE LOS CAMPOS DE LA ENTIDAD ********************* *
 	  ******************************************************************************** */ %>
 						<td>${entity.descripcion}</td>
-						<td>${entity.precio}</td>
+						<td>${entity.calcularTotal()}</td>
 						<td>${entity.clientePreTicket.nombre}</td>
 						<td>${entity.fecha}</td>
 						<c:choose>
