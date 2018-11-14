@@ -147,13 +147,7 @@ public class ComprobanteABMController extends AbstractABMController<Integer, Com
 				RespuestaProcesarFactura rpf = Facturar(entity);
 				if(rpf.getCae() != null && rpf.getCae() != ""){
 					entity.setCae(rpf.getCae());
-<<<<<<< HEAD
 					entity.setVencimientoCae(rpf.getFechaVtoCae().getTime());
-=======
-					GregorianCalendar fechaGregorian = new GregorianCalendar();
-					fechaGregorian.add(GregorianCalendar.DAY_OF_MONTH, 10);
-					entity.setVencimientoCae(fechaGregorian.getTime());
->>>>>>> f88d5ffc9bf92f546e5d67d7cd0df514479c67d3
 					//File file = GenerarPdf(entity);
 					//EnviarMail(entity.getClienteComprobante().getMail(),file);
 					model.addAttribute("facturado", "El comprobante fue emitido correctamente");
@@ -219,13 +213,7 @@ public class ComprobanteABMController extends AbstractABMController<Integer, Com
 			RespuestaProcesarFactura rpf = Facturar(entity);
 			if(rpf.getCae() != null && rpf.getCae() != ""){
 				entity.setCae(rpf.getCae());
-<<<<<<< HEAD
 				entity.setVencimientoCae(rpf.getFechaVtoCae().getTime());
-=======
-				GregorianCalendar fechaGregorian = new GregorianCalendar();
-				fechaGregorian.add(GregorianCalendar.DAY_OF_MONTH, 10);
-				entity.setVencimientoCae(fechaGregorian.getTime());
->>>>>>> f88d5ffc9bf92f546e5d67d7cd0df514479c67d3
 				//File file = GenerarPdf(entity);
 				//EnviarMail(entity.getClienteComprobante().getMail(),file);
 				model.addAttribute("facturado", "El comprobante fue emitido correctamente");
