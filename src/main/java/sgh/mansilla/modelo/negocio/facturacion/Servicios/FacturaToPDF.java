@@ -1,8 +1,14 @@
 package sgh.mansilla.modelo.negocio.facturacion.Servicios;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.StringReader;
 import java.util.List;
+
+import org.apache.axis.encoding.Base64;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Image;
@@ -13,14 +19,16 @@ import com.itextpdf.tool.xml.XMLWorkerHelper;
 
 import sgh.mansilla.modelo.datos.facturacion.Comprobante;
 import sgh.mansilla.modelo.datos.facturacion.Concepto;
+import sgh.mansilla.modelo.datos.facturacion.ItemPreTicket;
 import sgh.mansilla.modelo.datos.facturacion.RespuestaAFIP;
 import sgh.mansilla.modelo.datos.facturacion.RespuestaProcesarFactura;
+import sgh.mansilla.modelo.dto.facturacion.Vendedor;
 
 public class FacturaToPDF {
     //Ejemplo path: C://Users//Juan Notebook//Desktop//UNLA//Pintureria//HTML to PDF//pdfs//testpdf.pdf
     //Ejemplo imagenFondo: C://Users//Juan Notebook//Desktop//UNLA//Pintureria//HTML to PDF//imagen.gif
     //Ejemplo codigoBarra, es la ubicacion donde se va a guardar dicho codigo: C:\\barCode donde barCode seria el nombre, va sin extension.
-    public static Boolean ObtenerPDF(String path,String imagenFondo,String codigoBarra,Comprobante factura, String CUITEmisor,int cantidadCopias,boolean esFactura){
+    public static Boolean ObtenerPDF(String path,String imagenFondo,String codigoBarra,Comprobante factura, Vendedor vendedor,int cantidadCopias,boolean esFactura){
         boolean respuesta = false;
         for(int i=0;i<cantidadCopias;i++){
             String pathAux = path;
@@ -28,10 +36,10 @@ public class FacturaToPDF {
             if(esFactura){
                 pathAux = path.replace(".pdf","_"+multiplicidad+".pdf"); // le agrego al nombre al multiplicidad
             }
-            else{
-                pathAux = path.replace(".pdf","_REMITO_"+multiplicidad+".pdf"); // le agrego al nombre al multiplicidad
-            }
-            respuesta = ObtenerPDF(pathAux,imagenFondo,codigoBarra,factura,CUITEmisor,multiplicidad,esFactura);
+//            else{
+//                pathAux = path.replace(".pdf","_REMITO_"+multiplicidad+".pdf"); // le agrego al nombre al multiplicidad
+//            }
+            respuesta = ObtenerPDF(pathAux,imagenFondo,codigoBarra,factura,vendedor,multiplicidad,esFactura);
             if(!respuesta){ //si alguna de las copias falla, salgo del bucle y devuelvo que no se creo el pdf
                 break;
             }
@@ -59,18 +67,25 @@ public class FacturaToPDF {
         return multiplicidad;
 
     }
-    private static Boolean ObtenerPDF(String path,String imagenFondo,String codigoBarra, Comprobante factura,String CUITEmisor,String multiplicidad,boolean esFactura)
+    private static Boolean ObtenerPDF(String path,String imagenFondo,String codigoBarra, Comprobante factura,Vendedor vendedor,String multiplicidad,boolean esFactura)
     {
         try {
             List<Concepto> articulos = factura.getConceptos();
-
+            
+            String tipoIvaCliente = "";
+            if(factura.esFacturaA()){
+            	tipoIvaCliente = "Responsable Inscripto";
+            }else if(factura.esFacturaB()){
+            	tipoIvaCliente = "Consumidor Final";
+            }
+            
             String letraFactura=factura.getTipoComprobante().getCodigo(),
                     numeroFactura=String.valueOf(factura.getNroComprobante()),
                     fechaFactura=factura.getFechaComprobante().toString(),
                     nombreCliente=factura.getClienteComprobante().getNombre()+" "+factura.getClienteComprobante().getApellido(),
-                    domicilioCliente= "Domicilio de prueba 123",
-                    localidadCliente= "Localidad de prueba 345",
-                    condicionIvaCliente= factura.getClienteComprobante().getTipoDocumento().getDescripcion(),
+                    domicilioCliente= factura.getClienteComprobante().getDomicilio(),
+                    localidadCliente= factura.getClienteComprobante().getLocalidad(),
+                    condicionIvaCliente= tipoIvaCliente,
                     condicionVenta=factura.getConceptosAIncluir().getDescripcion(),
                     cuitCliente=factura.getClienteComprobante().getDocumento(),
                     cae = "",
@@ -95,7 +110,7 @@ public class FacturaToPDF {
 //                htmlFacturaAsociada = "<label> Factura asociada: "+factura.getFacturaAsociada()+"</label>";
 //            }
             if(factura.getCae() !=null) {
-                FileManager.generarCodigoDeBarra(CUITEmisor, factura, 002, codigoBarra);
+                FileManager.generarCodigoDeBarra(vendedor.getCuit(), factura, codigoBarra);
             }
             Document document = new Document(PageSize.A4,60, 60, 50, 50);
             PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(path));
@@ -110,6 +125,22 @@ public class FacturaToPDF {
             document.addTitle("Factura");
 
             XMLWorkerHelper worker = XMLWorkerHelper.getInstance();
+            
+//            String encodedfile = null;
+//            try {
+//            	File file = new File(imagenFondo);
+//                FileInputStream fileInputStreamReader = new FileInputStream(file);
+//                byte[] bytes = new byte[(int)file.length()];
+//                fileInputStreamReader.read(bytes);
+//                encodedfile = Base64.encode(bytes).toString();
+//                fileInputStreamReader.close();
+//            } catch (FileNotFoundException e) {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            } catch (IOException e) {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
 
             String str =
             		"<html xmlns=\"http://www.w3.org/1999/xhtml\">"+
@@ -174,7 +205,7 @@ public class FacturaToPDF {
             				        "}"+
             				        ".detalleEmisor {"+
             				            "margin-left:20px;"+
-            				            "margin-bottom:20px"+
+            				            "margin-bottom:10px"+
             				        "}"+
             				        ".detalleEmisorUltimo {"+
         				            "margin-left:20px;"+
@@ -188,7 +219,7 @@ public class FacturaToPDF {
             				            "padding-top:20px;"+
             				        "}"+
             				        ".detalleActividades {"+
-            				        	"margin-bottom:20px"+
+            				        	"margin-bottom:10px"+
         				            "}"+
             				    "</style>"+
             				"</head>"+
@@ -197,24 +228,24 @@ public class FacturaToPDF {
 							 "<table width=\"870\" align=\"center\" height=\"159\" class=\"tabla-factura\" border=\"1\">"+
 							 "  <tr style=\"line-height: 85%;\">"+
 							 "    <td class=\"trEncabezado\" width=\"424\">" +
-							 "<p align=\"center\" class=\"nombre3\">LOGO</p>"+
-							 "<p class=\"nombre2 detalleEmisor\">Hotel de Prueba"+
-							     "<span class=\"nombre2\"> S.R.L</span>"+
+							 "<br></br><br></br><br></br>"+
+							 "<p align=\"center\" class=\"nombre3\"></p>"+
+							 "<p class=\"nombre2 detalleEmisor\">"+vendedor.getNombre()+
 							 "</p>"+
-							 "<p class=\"detalleEmisor\">Av. Chiclana 3345 6° - CABA - Pcia. de Buenos Aires</p>"+
-							 "<p class=\"detalleEmisor\">Tel: 6841-4500</p>"+
-							 "<p class=\"detalleEmisor\">Iva Responsable Inscripto</p></td>"+
+							 "<p class=\"detalleEmisor\">"+vendedor.getDomicilio()+"</p>"+
+							 "<p class=\"detalleEmisor\">"+vendedor.getLocalidad()+"</p>"+
+							 "<p class=\"detalleEmisor\">Tel: "+vendedor.getTelefono()+"</p>"+
+							 "<p class=\"detalleEmisor\">"+vendedor.getCondicionIVA()+"</p></td>"+
                             "<td width=\"424\">";
                             if(esFactura){
-                                str = str+ "    <p align=\"center\" class=\"nombre4\"><strong>"+factura.getTipoComprobante().getDescripcion()+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>"+
-                                        //"       <span id=\"nombre6\"><strong>&nbsp;"+letraFactura+"&nbsp;</strong>"+
-                                        "       <span id=\"nombre6\"><strong>&nbsp;N° "+factura.getPtoVenta()+"  - "+numeroFactura+"&nbsp;</strong></span></p>";
+                                str = str+ "    <p align=\"center\" class=\"nombre4\"><strong>"+factura.getTipoComprobante().getDescripcion()+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></p>"+
+                                        "      <p class=\"detalleActividades\" align=\"center\">N° "+FileManager.adaptarPuntoDeVenta(factura.getPtoVenta())+"  - "+FileManager.adaptarNroComprobante(factura.getNroComprobante())+"</p>";
                             }
 
-                            str = str +"      <p align=\"center\" class=\"nombre4\">Fecha: "+fechaFactura+"</p>"+
-                            "      <p class=\"detalleActividades\" align=\"center\"><strong>C.U.I.T:</strong> 30-70865830-4</p>"+
-                            "      <p class=\"detalleActividades\" align=\"center\"><strong>Ingresos Brutos:</strong> 30-70865830-4</p>"+
-                            "      <p class=\"detalleActividades\" align=\"center\"><strong>Inicio de Actividades:</strong> 12/02/2004</p>"+
+                            str = str +"      <p class=\"detalleActividades\" align=\"center\"><strong>Fecha: </strong>"+fechaFactura+"</p>"+
+                            "      <p class=\"detalleActividades\" align=\"center\"><strong>C.U.I.T: </strong>"+vendedor.getCuit()+"</p>"+
+                            "      <p class=\"detalleActividades\" align=\"center\"><strong>Ingresos Brutos: </strong>"+vendedor.getIngresosBrutos()+"</p>"+
+                            "      <p class=\"detalleActividades\" align=\"center\"><strong>Inicio de Actividades: </strong>"+vendedor.getInicioActividades()+"</p>"+
                             "	   </td>"+
                             "  </tr>"+
                             "</table>"+
@@ -280,11 +311,12 @@ public class FacturaToPDF {
                             "</html>";
 
             worker.parseXHtml(pdfWriter, document, new StringReader(str));
-//            PdfContentByte canvas = pdfWriter.getDirectContentUnder();
-//            Image image = Image.getInstance(imagenFondo);
-//            image.setAbsolutePosition(60, 275);
-//            canvas.reset();
-//            canvas.addImage(image);
+            PdfContentByte canvas = pdfWriter.getDirectContentUnder();
+            Image image = Image.getInstance(imagenFondo);
+            image.scaleAbsolute(40, 40);
+            image.setAbsolutePosition(150, 740);
+            canvas.reset();
+            canvas.addImage(image);
             document.close();
             return true;
         }
@@ -297,25 +329,43 @@ public class FacturaToPDF {
     private static String ArticulosToString(List<Concepto> articulos,boolean esFactura)
     {
         String articulosString="";
-
+        int contadorRenglones = 0;
         for(Concepto art: articulos)
         {
-            articulosString=articulosString+
-                    "  <tr>"+
-                    "    <td align=\"right\">"+art.getCantidad()+"</td>"+
-                    "    <td>"+art.getDescripcion()+"</td>";
-                    if(esFactura){
-                        articulosString = articulosString + "    <td align=\"right\">"+art.getPrecio()+"</td>"+
-                                "    <td align=\"right\">"+art.getPrecio()*art.getCantidad()+"</td>";
-                    }
-                    articulosString = articulosString + "  </tr>";
+        	if(art.getPreTicket() != null && !art.getPreTicket().getItemsPreTicket().isEmpty()){
+        		for(ItemPreTicket itemPreTicket: art.getPreTicket().getItemsPreTicket())
+                {
+        			contadorRenglones++;
+        			articulosString=articulosString+
+                            "  <tr>"+
+                            "    <td align=\"right\">"+itemPreTicket.getCantidad()+"</td>"+
+                            "    <td>"+itemPreTicket.getDescripcion()+"</td>";
+                            if(esFactura){
+                                articulosString = articulosString + "    <td align=\"right\">"+itemPreTicket.getPrecio()+"</td>"+
+                                        "    <td align=\"right\">"+itemPreTicket.getPrecio()*itemPreTicket.getCantidad()+"</td>";
+                            }
+                            articulosString = articulosString + "  </tr>";
+                }
+        	}else{
+        		contadorRenglones++;
+        		articulosString=articulosString+
+                        "  <tr>"+
+                        "    <td align=\"right\">"+art.getCantidad()+"</td>"+
+                        "    <td>"+art.getDescripcion()+"</td>";
+                        if(esFactura){
+                            articulosString = articulosString + "    <td align=\"right\">"+art.getPrecio()+"</td>"+
+                                    "    <td align=\"right\">"+art.getPrecio()*art.getCantidad()+"</td>";
+                        }
+                        articulosString = articulosString + "  </tr>";
+        	}
+            
 
 
         }
 
-        if(articulos.size()<13)
+        if(contadorRenglones<13)
         {
-            for(int i=articulos.size()-1;i<13;i++)
+            for(int i=contadorRenglones-1;i<13;i++)
             {
                 articulosString=articulosString+
                         "  <tr>"+

@@ -252,14 +252,14 @@ public class ComprobanteDTO {
 
 	public boolean esFacturaA(){
 		boolean bandera=false;
-		if(codigoComprobante.equalsIgnoreCase("1")){
+		if(codigoComprobante.equalsIgnoreCase("001")){
 			bandera=true;
 		}
 		return bandera;
 	}
 	public boolean esFacturaB(){
 		boolean bandera=false;
-		if(codigoComprobante.equalsIgnoreCase("6")){
+		if(codigoComprobante.equalsIgnoreCase("006")){
 			bandera=true;
 		}
 		return bandera;

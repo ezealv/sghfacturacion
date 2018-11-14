@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -11,8 +11,8 @@
     <link rel="icon" href="<c:url value='/static/material/images/favicon.ico' />" type="image/x-icon">
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+    <link href="<c:url value='/static/material/css/fuente-roboto.css' />" rel="stylesheet" type="text/css">
+    <link href="<c:url value='/static/material/css/material-icons.css' />" rel="stylesheet" type="text/css">
 
     <!-- Bootstrap Core Css -->
     <link href="<c:url value='/static/material/plugins/bootstrap/css/bootstrap.css' />" rel="stylesheet">
@@ -65,7 +65,7 @@
                     </div>
                 </div>
             </div>
-            <p>Cargando...</p>
+            <p id="loaderText">Cargando...</p>
         </div>
     </div>
     <!-- #END# Page Loader -->
@@ -89,89 +89,10 @@
             <div class="navbar-header">
                 <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
                 <a href="javascript:void(0);" class="bars"></a>
-                <a class="navbar-brand">Sistema de Gesti髇 Hotelera</a>
+                <a class="navbar-brand">Sistema de Gesti贸n Hotelera</a>
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <!-- Call Search -->
-                    
-                    <!-- Tasks -->
-                    <li class="dropdown">
-                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                            <i class="material-icons">flag</i>
-                            <span class="label-count">9</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li class="header">TASKS</li>
-                            <li class="body">
-                                <ul class="menu tasks">
-                                    <li>
-                                        <a href="javascript:void(0);">
-                                            <h4>
-                                                Footer display issue
-                                                <small>32%</small>
-                                            </h4>
-                                            <div class="progress">
-                                                <div class="progress-bar bg-pink" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 32%">
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);">
-                                            <h4>
-                                                Make new buttons
-                                                <small>45%</small>
-                                            </h4>
-                                            <div class="progress">
-                                                <div class="progress-bar bg-cyan" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);">
-                                            <h4>
-                                                Create new dashboard
-                                                <small>54%</small>
-                                            </h4>
-                                            <div class="progress">
-                                                <div class="progress-bar bg-teal" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 54%">
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);">
-                                            <h4>
-                                                Solve transition issue
-                                                <small>65%</small>
-                                            </h4>
-                                            <div class="progress">
-                                                <div class="progress-bar bg-orange" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 65%">
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);">
-                                            <h4>
-                                                Answer GitHub questions
-                                                <small>92%</small>
-                                            </h4>
-                                            <div class="progress">
-                                                <div class="progress-bar bg-purple" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 92%">
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="footer">
-                                <a href="javascript:void(0);">View All Tasks</a>
-                            </li>
-                        </ul>
-                    </li>
                     <!-- #END# Tasks -->
                     <li class="pull-right"><a href="javascript:void(0);" class="js-right-sidebar" data-close="true"><i class="material-icons">more_vert</i></a></li>
                 </ul>
@@ -233,7 +154,7 @@
                     <li>
                         <a href="javascript:void(0);" class="menu-toggle">
                             <i class="material-icons">library_books</i>
-                            <span>Gesti髇 del Hotel</span>
+                            <span>Gesti贸n del Hotel</span>
                         </a>
                         <ul class="ml-menu">
                             <li>
@@ -243,7 +164,7 @@
                                 <a href="<c:url value='/planAlojamiento/' />">Plan Alojamiento</a>
                             </li>
                             <li>
-                                <a href="<c:url value='/estadia/' />">Estad韆</a>
+                                <a href="<c:url value='/estadia/' />">Estad铆a</a>
                             </li>
                         </ul>
                     </li>
@@ -283,14 +204,14 @@
                                 <a href="<c:url value='/tipoServicio/' />">Tipos de Servicios</a>
                             </li>
                             <li>
-                                <a href="<c:url value='/estadoEstadia/' />">Estados Estad韆</a>
+                                <a href="<c:url value='/estadoEstadia/' />">Estados Estad铆a</a>
                             </li>
                         </ul>
                     </li>
                     <li>
                         <a href="javascript:void(0);" class="menu-toggle">
                             <i class="material-icons">attach_money</i>
-                            <span>Facturaci髇</span>
+                            <span>Facturaci贸n</span>
                         </a>
                         <ul class="ml-menu">
                             <li>
@@ -319,7 +240,7 @@
             <!-- Footer -->
             <div class="legal">
                 <div class="copyright">
-                    &copy; 2018 <a href="javascript:void(0);">Sistema de Gesti髇 Hotelera</a>.
+                    &copy; 2018 <a href="javascript:void(0);">Sistema de Gesti贸n Hotelera</a>.
                 </div>
                 <div class="version">
                     <b>Version: </b> 1.0.0

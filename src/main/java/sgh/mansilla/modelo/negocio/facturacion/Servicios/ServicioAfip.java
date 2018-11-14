@@ -117,15 +117,13 @@ public class ServicioAfip {
         
         if (!respuestaAFIP.hasCAE()) {
             errores.add("No se pudo obtener el CAE.");
-            for (Observacion e: respuestaAFIP.getObservaciones()){
-                observaciones.add("Observacion: " + String.valueOf(e.getCode()) + " - " + e.getMsg());
-            }
             respuestaProcesarFactura.setListaErrores(errores);
             return respuestaProcesarFactura;
         }
 
         respuestaProcesarFactura.setNroComprobante(ultimoComprobante + 1);
         respuestaProcesarFactura.setCae(respuestaAFIP.getCAE());
+        respuestaProcesarFactura.setFechaVtoCae(respuestaAFIP.getFechaExpiracion());
 
         return respuestaProcesarFactura;
     }
@@ -134,11 +132,14 @@ public class ServicioAfip {
     private void adaptarFacturaPorTipo(ComprobanteDTO comprobante) {
         if(comprobante.esFacturaB()){
             //En subtotal tiene el precio con iva, tengo que discriminarlo para la afip
-            double subtotal =  ((100 * comprobante.getImporteNeto()) / (100+comprobante.getPorcentajeIva()) );
-            double importeIva = comprobante.getImporteNeto() - subtotal;
-            comprobante.setSubtotal(round(subtotal, 2));
+//            double subtotal =  ((100 * comprobante.getImporteNeto()) / (100+comprobante.getPorcentajeIva()) );
+//            double importeIva = comprobante.getImporteNeto() - subtotal;
+//            comprobante.setSubtotal(round(subtotal, 2));
+//            comprobante.setImporteNeto(round(comprobante.getImporteNeto(),2));
+//            comprobante.setTotalIva(round(importeIva,2));
+            comprobante.setSubtotal(round(comprobante.getSubtotal(), 2));
             comprobante.setImporteNeto(round(comprobante.getImporteNeto(),2));
-            comprobante.setTotalIva(round(importeIva,2));
+            comprobante.setTotalIva(round(comprobante.getTotalIva(),2));
         }else{
         	comprobante.setSubtotal(round(comprobante.getSubtotal(), 2));
             comprobante.setImporteNeto(round(comprobante.getImporteNeto(),2));

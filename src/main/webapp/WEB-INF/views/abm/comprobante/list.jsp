@@ -1,5 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
 <%@ page isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sec"
@@ -35,7 +33,7 @@
 						class="btn btn-primary waves-effect">Crear Comprobante</a>
 				</sec:authorize>
             </div>
-			<div class="body">
+			<div class="body table-responsive">
 				<table
 					class="table table-bordered table-striped table-hover js-exportable dataTable">
 					<thead>
@@ -53,7 +51,7 @@
 							<th>Forma de Pago</th>
 							<th>Importe Total</th>
 							<th>CAE</th>
-							<th>Acciones</th>
+							<th class="noExport">Acciones</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -80,6 +78,15 @@
 											  ******************************************************************************** */
 								%>
 								<td>
+								<sec:authorize access="hasRole('ADMIN') or hasRole('DBA')">
+								<c:choose>
+									<c:when test="${entity.cae != null}">
+										<button type="button" onclick="window.open('<c:url value='Download/${entity.id}' />')" class="btn btn-success btn-circle waves-effect waves-circle waves-float">
+										    <i class="material-icons">file_download</i>											
+										</button>
+									</c:when>
+								</c:choose>
+								</sec:authorize>
 								<sec:authorize access="hasRole('ADMIN') or hasRole('DBA')">
 									<button type="button" onclick="javascript:location.href='<c:url value='editComprobante-${entity.id}' />'" class="btn btn-default btn-circle waves-effect waves-circle waves-float">
 									    <i class="material-icons">mode_edit</i>

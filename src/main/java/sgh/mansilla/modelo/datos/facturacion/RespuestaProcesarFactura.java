@@ -1,6 +1,7 @@
 package sgh.mansilla.modelo.datos.facturacion;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class RespuestaProcesarFactura {
@@ -12,6 +13,7 @@ public class RespuestaProcesarFactura {
     String resultado;
     int nroComprobante;
     String fecha;
+    GregorianCalendar fechaVtoCae;
 
     public List<String> getListaErrores() {
         return listaErrores;
@@ -65,6 +67,14 @@ public class RespuestaProcesarFactura {
 
 	public void setFecha(String fecha) {
 		this.fecha = fecha;
+	}
+
+	public GregorianCalendar getFechaVtoCae() {
+		return fechaVtoCae;
+	}
+
+	public void setFechaVtoCae(GregorianCalendar fechaVtoCae) {
+		this.fechaVtoCae = fechaVtoCae;
 	}
     
 	

@@ -55,7 +55,7 @@ public class PreTicketABMController extends AbstractABMController<Integer, PreTi
 	
 	@InitBinder
     public void initBinder(WebDataBinder binder) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		dateFormat.setLenient(false);
 
 		binder.registerCustomEditor(Date.class, "fecha", new CustomDateEditor(dateFormat, true));

@@ -243,9 +243,14 @@ public class Comprobante implements Identificable<Integer>  {
 		
 		//aaaaa
 		public boolean esFacturaA() {
-			return true;
+			if(this.getTipoComprobante().getCodigo().equals("001")) return true;
+			return false;
 		}
 		
+		public boolean esFacturaB() {
+			if(this.getTipoComprobante().getCodigo().equals("006")) return true;
+			return false;
+		}
 		
 
 }
