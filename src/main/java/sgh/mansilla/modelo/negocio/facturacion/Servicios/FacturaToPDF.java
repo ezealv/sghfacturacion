@@ -110,7 +110,11 @@ public class FacturaToPDF {
 //                htmlFacturaAsociada = "<label> Factura asociada: "+factura.getFacturaAsociada()+"</label>";
 //            }
             if(factura.getCae() !=null) {
+<<<<<<< HEAD
                 FileManager.generarCodigoDeBarra(vendedor.getCuit(), factura, codigoBarra);
+=======
+                FileManager.generarCodigoDeBarra(vendedor.getCuit(), factura, 002, codigoBarra);
+>>>>>>> f88d5ffc9bf92f546e5d67d7cd0df514479c67d3
             }
             Document document = new Document(PageSize.A4,60, 60, 50, 50);
             PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(path));
@@ -332,6 +336,7 @@ public class FacturaToPDF {
         int contadorRenglones = 0;
         for(Concepto art: articulos)
         {
+<<<<<<< HEAD
         	if(art.getPreTicket() != null && !art.getPreTicket().getItemsPreTicket().isEmpty()){
         		for(ItemPreTicket itemPreTicket: art.getPreTicket().getItemsPreTicket())
                 {
@@ -359,6 +364,17 @@ public class FacturaToPDF {
                         articulosString = articulosString + "  </tr>";
         	}
             
+=======
+            articulosString=articulosString+
+                    "  <tr>"+
+                    "    <td align=\"right\">"+art.getCantidad()+"</td>"+
+                    "    <td>"+art.getDescripcion()+"</td>";
+                    if(esFactura){
+                        articulosString = articulosString + "    <td align=\"right\">"+art.getPrecio()+"</td>"+
+                                "    <td align=\"right\">"+art.getPrecio()*art.getCantidad()+"</td>";
+                    }
+                    articulosString = articulosString + "  </tr>";
+>>>>>>> f88d5ffc9bf92f546e5d67d7cd0df514479c67d3
 
 
         }

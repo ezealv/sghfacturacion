@@ -4,15 +4,16 @@
 <hibernate-configuration>
 	<session-factory>
 <!-- 		<property name="connection.driver_class">com.mysql.jdbc.Driver</property> -->
-<!-- 		<property name="connection.url">jdbc:mysql://ioatyaspkh3amj56:k8brsxh2ww62ve8p@zf4nk2bcqjvif4in.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/qiv69jsgdrk5dp6k</property> -->
-<!-- 		<property name="connection.username">ioatyaspkh3amj56</property> -->
-<!-- 		<property name="connection.password">k8brsxh2ww62ve8p</property> -->
+<!-- 		<property name="connection.url">jdbc:mysql://localhost:3306/sgh</property> -->
+<!-- 		<property name="connection.username">root</property> -->
+<!-- 		<property name="connection.password">root</property> -->
 <!-- 		<property name="connection.pool_size">1</property> -->
 		<property name="dialect">org.hibernate.dialect.MySQLDialect</property>
 		<property name="show_sql">true</property> <!-- en true muestra hql en consola -->
 		<property name="hibernate.format_sql">true</property>
 		<!-- create create-drop validate update -->
 		<property name="hibernate.hbm2ddl.auto">update</property>
+
 		<!--Mapeo Entidades -->
 		<mapping resource="mapeos/tipoDocumento.hbm.xml" />
 		<mapping resource="mapeos/caracteristicaPasajero.hbm.xml" />
@@ -44,6 +45,7 @@
 		<mapping resource="mapeos/clienteComprobante.hbm.xml" />
 		<mapping resource="mapeos/preTicket.hbm.xml" />
 		<mapping resource="mapeos/ticketAcceso.hbm.xml" />
+		<mapping resource="mapeos/itemPreTicket.hbm.xml" />
 
 	</session-factory>
 </hibernate-configuration>
